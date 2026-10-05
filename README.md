@@ -1,0 +1,1 @@
+# Projeto de Integração de Novos Colaboradores - Eletra Energy Solutions
