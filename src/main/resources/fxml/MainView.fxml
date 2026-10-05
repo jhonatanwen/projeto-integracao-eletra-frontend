@@ -15,7 +15,7 @@
       <Separator layoutX="11.0" layoutY="30.0" prefHeight="18.0" prefWidth="580.0" />
       <Accordion cache="true" cacheHint="SCALE_AND_ROTATE" layoutX="11.0" layoutY="43.0" prefHeight="203.0" prefWidth="580.0">
         <panes>
-            <TitledPane id="tpLines" animated="false" expanded="false" prefHeight="174.0" prefWidth="580.0" text="Linhas">
+            <TitledPane fx:id="tpLines" animated="false" expanded="false" prefHeight="174.0" prefWidth="580.0" text="Linhas">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -24,17 +24,17 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ComboBox id="cbLines" layoutX="150.0" layoutY="1.0" prefWidth="150.0" />
+                        <ComboBox fx:id="cbLines" layoutX="150.0" layoutY="1.0" prefWidth="150.0" />
                      </children>
                   </AnchorPane>
               </content>
             </TitledPane>
-            <TitledPane id="tpModels" animated="false" disable="true" expanded="false" prefHeight="140.0" prefWidth="580.0" text="Modelos">
+            <TitledPane fx:id="tpModels" animated="false" disable="true" expanded="false" prefHeight="140.0" prefWidth="580.0" text="Modelos">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="129.0" prefWidth="578.0">
                      <children>
                         <Label layoutY="5.0" text="Lista de Modelos:" />
-                        <TreeView id="tvModels" layoutX="100.0" layoutY="6.0" prefHeight="114.0" prefWidth="200.0" />
+                        <TreeView fx:id="tvModels" layoutX="100.0" layoutY="6.0" prefHeight="114.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
               </content>
