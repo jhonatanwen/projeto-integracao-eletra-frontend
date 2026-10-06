@@ -43,7 +43,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="cbLines">
+                              <ComboBox fx:id="cbLines" prefWidth="120.0">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
