@@ -1,7 +1,12 @@
 package com.eletra.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -22,6 +27,8 @@ public class MainController implements Initializable{
     @FXML
     private TreeView<String> tvModels;
 
+    private TreeItem<String> rootCategories = new TreeItem<>("root");
+    private List<TreeItem<String>> allCategories = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -32,60 +39,68 @@ public class MainController implements Initializable{
         tvModels.setShowRoot(false);
 
         cbLines.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue != null){
-                tpModels.setDisable(false);
-                loadModels(newValue);
-            }
+            tpModels.setDisable(false);
+            refreshSelection(newValue);
         });
+
+        loadModels();
     }
 
-    private void loadModels(String line){
-        TreeItem<String> rootNode = new TreeItem<>("Root");
-        rootNode.setExpanded(true);
+    private void loadModels() {
+        rootCategories.setExpanded(true);
 
-        if("Ares".equals(line)){
-            TreeItem<String> catTB = new TreeItem<>("Ares TB");
-            catTB.getChildren().addAll(
-                    new TreeItem<>("ARES 7021"),
-                    new TreeItem<>("ARES 7031"),
-                    new TreeItem<>("ARES 7023")
-            );
+        TreeItem<String> catTB = new TreeItem<>("Ares TB");
+        catTB.getChildren().addAll(
+                new TreeItem<>("ARES 7021"),
+                new TreeItem<>("ARES 7031"),
+                new TreeItem<>("ARES 7023")
+        );
 
-            TreeItem<String> catTHS = new TreeItem<>("ARES THS");
-            catTHS.getChildren().addAll(
-                    new TreeItem<>("ARES 8023 15"),
-                    new TreeItem<>("ARES 8023 200"),
-                    new TreeItem<>("ARES 8023 2,5")
-            );
+        TreeItem<String> catTHS = new TreeItem<>("Ares THS");
+        catTHS.getChildren().addAll(
+                new TreeItem<>("ARES 8023 15"),
+                new TreeItem<>("ARES 8023 200"),
+                new TreeItem<>("ARES 8023 2,5")
+        );
 
-            rootNode.getChildren().addAll(catTB, catTHS);
-        } else if("Cronos".equals(line)){
-            TreeItem<String> catOld = new TreeItem<>("Cronos Old");
-            catOld.getChildren().addAll(
-                    new TreeItem<>("CRONOS 6001-A"),
-                    new TreeItem<>("CRONOS 6003"),
-                    new TreeItem<>("CRONOS 7023")
-            );
+        TreeItem<String> catOld = new TreeItem<>("Cronos Old");
+        catOld.getChildren().addAll(
+                new TreeItem<>("CRONOS 6001-A"),
+                new TreeItem<>("CRONOS 6003"),
+                new TreeItem<>("CRONOS 7023")
+        );
 
-            TreeItem<String> catL = new TreeItem<>("Cronos L");
-            catL.getChildren().addAll(
-                    new TreeItem<>("CRONOS 6021L"),
-                    new TreeItem<>("CRONOS 7023L")
-            );
+        TreeItem<String> catL = new TreeItem<>("Cronos L");
+        catL.getChildren().addAll(
+                new TreeItem<>("CRONOS 6021L"),
+                new TreeItem<>("CRONOS 7023L")
+        );
 
-            TreeItem<String> catNG = new TreeItem<>("Cronos-NG");
-            catNG.getChildren().addAll(
-                    new TreeItem<>("CRONOS 6001-NG"),
-                    new TreeItem<>("CRONOS 6003-NG"),
-                    new TreeItem<>("CRONOS 6021-NG"),
-                    new TreeItem<>("CRONOS 6031-NG"),
-                    new TreeItem<>("CRONOS 7021-NG"),
-                    new TreeItem<>("CRONOS 7023-NG")
-            );
+        TreeItem<String> catNG = new TreeItem<>("Cronos-NG");
+        catNG.getChildren().addAll(
+                new TreeItem<>("CRONOS 6001-NG"),
+                new TreeItem<>("CRONOS 6003-NG"),
+                new TreeItem<>("CRONOS 6021-NG"),
+                new TreeItem<>("CRONOS 6031-NG"),
+                new TreeItem<>("CRONOS 7021-NG"),
+                new TreeItem<>("CRONOS 7023-NG")
+        );
 
-            rootNode.getChildren().addAll(catOld, catL, catNG);
+        allCategories.addAll(Arrays.asList(catTB, catTHS, catOld, catL, catNG));
+
+        tvModels.setRoot(rootCategories);
+    }
+
+    private void refreshSelection(String line) {
+        if (line == null) {
+            rootCategories.getChildren().clear();
+            return;
         }
 
-        tvModels.setRoot(rootNode);
+        List<TreeItem<String>> filteredList = allCategories.stream()
+                .filter(category -> category.getValue().toLowerCase().contains(line.toLowerCase()))
+                .collect(Collectors.toList());
+
+        rootCategories.getChildren().setAll(filteredList);
     }
 }
