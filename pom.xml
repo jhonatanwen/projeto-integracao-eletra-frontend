@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.eletra</groupId>
-    <artifactId>ProjetoIntegracao</artifactId>
-    <version>0.1.0</version>
+    <artifactId>projeto-integracao-frontend</artifactId>
+    <version>0.2.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -31,5 +31,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.eletra</groupId>
+            <artifactId>projeto-integracao-backend</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+    </dependencies>
 
 </project>
