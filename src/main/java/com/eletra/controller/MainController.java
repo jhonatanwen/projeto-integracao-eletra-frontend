@@ -4,7 +4,11 @@ import com.eletra.model.Category;
 import com.eletra.model.Line;
 import com.eletra.model.Model;
 import java.net.URL;
-import java.util.*;
+import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -54,7 +58,6 @@ public class MainController implements Initializable {
 
             for (Category category : line.getCategories()) {
                 TreeItem<String> categoryItem = new TreeItem<>(category.getName());
-                categoryItem.setExpanded(true);
 
                 for (Model model : category.getModels()) {
                     categoryItem.getChildren().add(new TreeItem<>(model.getName()));
