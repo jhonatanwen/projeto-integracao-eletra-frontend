@@ -1,12 +1,14 @@
 package com.eletra.controller;
 
+import com.eletra.model.Category;
+import com.eletra.model.Line;
+import com.eletra.model.Model;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -14,7 +16,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
-public class MainController implements Initializable{
+public class MainController implements Initializable {
     @FXML
     private TitledPane tpLines;
 
@@ -27,80 +29,53 @@ public class MainController implements Initializable{
     @FXML
     private TreeView<String> tvModels;
 
-    private TreeItem<String> rootCategories = new TreeItem<>("root");
-    private List<TreeItem<String>> allCategories = new ArrayList<>();
+    private LineController lineController;
+    private final TreeItem<String> rootCategories = new TreeItem<>("root");
+    private final Map<String, List<TreeItem<String>>> modelsCache = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        lineController = new LineController();
+
         tpModels.setDisable(true);
 
-        cbLines.getItems().addAll("Cronos", "Ares");
-
         tvModels.setShowRoot(false);
+        tvModels.setRoot(rootCategories);
+        rootCategories.setExpanded(true);
+        buildModelsCache();
 
         cbLines.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             tpModels.setDisable(false);
             refreshSelection(newValue);
         });
-
-        loadModels();
     }
 
-    private void loadModels() {
-        rootCategories.setExpanded(true);
+    private void buildModelsCache() {
+        for (Line line : lineController.getAllLines()) {
+            cbLines.getItems().add(line.getName());
 
-        TreeItem<String> catTB = new TreeItem<>("Ares TB");
-        catTB.getChildren().addAll(
-                new TreeItem<>("ARES 7021"),
-                new TreeItem<>("ARES 7031"),
-                new TreeItem<>("ARES 7023")
-        );
+            List<TreeItem<String>> categoryItems = new ArrayList<>();
 
-        TreeItem<String> catTHS = new TreeItem<>("Ares THS");
-        catTHS.getChildren().addAll(
-                new TreeItem<>("ARES 8023 15"),
-                new TreeItem<>("ARES 8023 200"),
-                new TreeItem<>("ARES 8023 2,5")
-        );
+            for (Category category : line.getCategories()) {
+                TreeItem<String> categoryItem = new TreeItem<>(category.getName());
 
-        TreeItem<String> catOld = new TreeItem<>("Cronos Old");
-        catOld.getChildren().addAll(
-                new TreeItem<>("CRONOS 6001-A"),
-                new TreeItem<>("CRONOS 6003"),
-                new TreeItem<>("CRONOS 7023")
-        );
+                for (Model model : category.getModels()) {
+                    categoryItem.getChildren().add(new TreeItem<>(model.getName()));
+                }
 
-        TreeItem<String> catL = new TreeItem<>("Cronos L");
-        catL.getChildren().addAll(
-                new TreeItem<>("CRONOS 6021L"),
-                new TreeItem<>("CRONOS 7023L")
-        );
+                categoryItems.add(categoryItem);
+            }
 
-        TreeItem<String> catNG = new TreeItem<>("Cronos-NG");
-        catNG.getChildren().addAll(
-                new TreeItem<>("CRONOS 6001-NG"),
-                new TreeItem<>("CRONOS 6003-NG"),
-                new TreeItem<>("CRONOS 6021-NG"),
-                new TreeItem<>("CRONOS 6031-NG"),
-                new TreeItem<>("CRONOS 7021-NG"),
-                new TreeItem<>("CRONOS 7023-NG")
-        );
-
-        allCategories.addAll(Arrays.asList(catTB, catTHS, catOld, catL, catNG));
-
-        tvModels.setRoot(rootCategories);
-    }
-
-    private void refreshSelection(String line) {
-        if (line == null) {
-            rootCategories.getChildren().clear();
-            return;
+            modelsCache.put(line.getName(), categoryItems);
         }
+    }
 
-        List<TreeItem<String>> filteredList = allCategories.stream()
-                .filter(category -> category.getValue().toLowerCase().contains(line.toLowerCase()))
-                .collect(Collectors.toList());
-
-        rootCategories.getChildren().setAll(filteredList);
+    private void refreshSelection(String lineName) {
+        List<TreeItem<String>> items = modelsCache.get(lineName);
+        if (items != null) {
+            rootCategories.getChildren().setAll(items);
+        } else {
+            rootCategories.getChildren().clear();
+        }
     }
 }
