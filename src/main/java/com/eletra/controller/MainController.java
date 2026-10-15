@@ -1,13 +1,11 @@
 package com.eletra.controller;
 
-import com.eletra.model.Category;
-import com.eletra.model.Line;
-import com.eletra.model.Model;
+import com.eletra.models.Types;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,25 +16,19 @@ import javafx.scene.control.TreeView;
 
 public class MainController implements Initializable {
     @FXML
-    private TitledPane tpLines;
-
-    @FXML
     private TitledPane tpModels;
 
     @FXML
-    private ComboBox<String> cbLines;
+    private ComboBox<Types> cbLines;
 
     @FXML
-    private TreeView<String> tvModels;
+    private TreeView<Types> tvModels;
 
-    private LineController lineController;
-    private final TreeItem<String> rootCategories = new TreeItem<>("root");
-    private final Map<String, List<TreeItem<String>>> modelsCache = new HashMap<>();
+    private final TreeItem<Types> rootCategories = new TreeItem<>(null);
+    private final Map<Types, List<TreeItem<Types>>> modelsCache = new EnumMap<>(Types.class);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lineController = new LineController();
-
         tpModels.setDisable(true);
 
         tvModels.setShowRoot(false);
@@ -45,34 +37,37 @@ public class MainController implements Initializable {
         buildModelsCache();
 
         cbLines.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            tpModels.setDisable(false);
+            tpModels.setDisable(newValue == null);
             refreshSelection(newValue);
         });
     }
 
     private void buildModelsCache() {
-        for (Line line : lineController.getAllLines()) {
-            cbLines.getItems().add(line.getName());
+        for (Types line : Types.getLines()) {
+            cbLines.getItems().add(line);
 
-            List<TreeItem<String>> categoryItems = new ArrayList<>();
+            List<TreeItem<Types>> categoryItems = new ArrayList<>();
 
-            for (Category category : line.getCategories()) {
-                TreeItem<String> categoryItem = new TreeItem<>(category.getName());
+            for (Types category : line.getChildren()) {
+                TreeItem<Types> categoryItem = new TreeItem<>(category);
 
-                for (Model model : category.getModels()) {
-                    categoryItem.getChildren().add(new TreeItem<>(model.getName()));
+                for (Types model : category.getChildren()) {
+                    categoryItem.getChildren().add(new TreeItem<>(model));
                 }
 
                 categoryItems.add(categoryItem);
             }
 
-            modelsCache.put(line.getName(), categoryItems);
+            modelsCache.put(line, categoryItems);
         }
     }
 
-    private void refreshSelection(String lineName) {
-        List<TreeItem<String>> items = modelsCache.get(lineName);
+    private void refreshSelection(Types line) {
+        List<TreeItem<Types>> items = modelsCache.get(line);
         if (items != null) {
+            for (TreeItem<Types> categoryItem : items) {
+                categoryItem.setExpanded(false);
+            }
             rootCategories.getChildren().setAll(items);
         } else {
             rootCategories.getChildren().clear();
