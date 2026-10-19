@@ -21,6 +21,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>8.6.0</version>
                 <configuration>
+                    <appName>ProjetoIntegracao</appName>
                     <mainClass>com.eletra.Main</mainClass>
                     <verbose>true</verbose>
                     <vendor>Jhonatan</vendor>
@@ -39,6 +40,13 @@
                             <goal>build-jar</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>create-native</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-native</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -48,7 +56,7 @@
         <dependency>
             <groupId>com.eletra</groupId>
             <artifactId>projeto-integracao-backend</artifactId>
-            <version>0.2.0</version>
+            <version>0.3.0</version>
         </dependency>
     </dependencies>
 
