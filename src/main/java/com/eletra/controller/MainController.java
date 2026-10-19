@@ -1,8 +1,8 @@
 package com.eletra.controller;
 
-import com.eletra.model.Category;
-import com.eletra.model.Line;
-import com.eletra.model.Model;
+import com.eletra.model.CategoryEntity;
+import com.eletra.model.LineEntity;
+import com.eletra.model.ModelEntity;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
@@ -18,9 +18,6 @@ import javafx.scene.control.TreeView;
 
 public class MainController implements Initializable {
     @FXML
-    private TitledPane tpLines;
-
-    @FXML
     private TitledPane tpModels;
 
     @FXML
@@ -30,12 +27,16 @@ public class MainController implements Initializable {
     private TreeView<String> tvModels;
 
     private LineController lineController;
+    private CategoryController categoryController;
+    private ModelController modelController;
     private final TreeItem<String> rootCategories = new TreeItem<>("root");
     private final Map<String, List<TreeItem<String>>> modelsCache = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lineController = new LineController();
+        categoryController = new CategoryController();
+        modelController = new ModelController();
 
         tpModels.setDisable(true);
 
@@ -51,15 +52,15 @@ public class MainController implements Initializable {
     }
 
     private void buildModelsCache() {
-        for (Line line : lineController.getAllLines()) {
+        for (LineEntity line : lineController.getAllLines()) {
             cbLines.getItems().add(line.getName());
 
             List<TreeItem<String>> categoryItems = new ArrayList<>();
 
-            for (Category category : line.getCategories()) {
+            for (CategoryEntity category : categoryController.getCategoriesByLineId(line.getId())) {
                 TreeItem<String> categoryItem = new TreeItem<>(category.getName());
 
-                for (Model model : category.getModels()) {
+                for (ModelEntity model : modelController.getModelsByCategoryId(category.getId())) {
                     categoryItem.getChildren().add(new TreeItem<>(model.getName()));
                 }
 
@@ -73,6 +74,9 @@ public class MainController implements Initializable {
     private void refreshSelection(String lineName) {
         List<TreeItem<String>> items = modelsCache.get(lineName);
         if (items != null) {
+            for (TreeItem<String> item : items) {
+                item.setExpanded(false);
+            }
             rootCategories.getChildren().setAll(items);
         } else {
             rootCategories.getChildren().clear();
