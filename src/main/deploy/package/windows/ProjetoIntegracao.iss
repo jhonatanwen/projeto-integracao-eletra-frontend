@@ -41,9 +41,6 @@ WizardImageStretch=No
 ArchitecturesInstallIn64BitMode=x64
 SetupIconFile={#AppBundleDir}\{#MyAppIco}
 
-; Se tiver colocado o arquivo ProjetoIntegracao.ico na mesma pasta do .iss,
-; descomente a linha abaixo para aplicar o icone tambem no arquivo setup.exe:
-
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 Name: "english"; MessagesFile: "compiler:Default.isl"
