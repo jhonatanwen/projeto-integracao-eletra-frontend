@@ -1,5 +1,6 @@
 #define MyAppName "ProjetoIntegracao"
 #define MyAppIco "ProjetoIntegracao.ico"
+#define MyAppWizardIconBmp "ProjetoIntegracao-setup-icon.bmp"
 #define MyAppVersion "0.3.0"
 #define MyAppPublisher "Jhonatan"
 #define MyAppExeName "ProjetoIntegracao.exe"
@@ -37,7 +38,8 @@ SolidCompression=yes
 PrivilegesRequired=admin
 UninstallDisplayName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
-WizardImageStretch=No
+WizardImageFile={#MyAppWizardIconBmp}
+WizardSmallImageFile={#MyAppWizardIconBmp}
 ArchitecturesInstallIn64BitMode=x64
 SetupIconFile={#AppBundleDir}\{#MyAppIco}
 
