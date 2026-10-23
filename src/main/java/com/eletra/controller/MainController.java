@@ -34,17 +34,28 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setDatabaseControllers();
+        setTpModels();
+        setCbLines();
+    }
+
+    private void setDatabaseControllers() {
         lineController = new LineController();
         categoryController = new CategoryController();
         modelController = new ModelController();
+    }
 
+    private void setTpModels() {
         tpModels.setDisable(true);
-
         tvModels.setShowRoot(false);
         tvModels.setRoot(rootCategories);
-        rootCategories.setExpanded(true);
-        buildModelsCache();
 
+        rootCategories.setExpanded(true);
+
+        buildModelsCache();
+    }
+
+    private void setCbLines() {
         cbLines.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             tpModels.setDisable(false);
             refreshSelection(newValue);
