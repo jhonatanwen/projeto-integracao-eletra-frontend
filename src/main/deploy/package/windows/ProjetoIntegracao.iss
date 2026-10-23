@@ -6,7 +6,6 @@
 #define MyAppExeName "ProjetoIntegracao.exe"
 #define MyAppId "UPDATE-DETECTION"
 
-; Detecta automaticamente se esta rodando via javapackager ou direto da pasta
 #if FileExists(AddBackslash(SourcePath) + "ProjetoIntegracao\ProjetoIntegracao.exe")
   #define AppBundleDir "ProjetoIntegracao"
   #define OutputFolder "."
@@ -60,9 +59,7 @@ Source: "{#AppBundleDir}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversio
 Source: "{#AppBundleDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-; Cria o atalho no Menu Iniciar se a opcao "startmenuicon" estiver marcada
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: startmenuicon
-; Cria o atalho na Area de Trabalho se a opcao "desktopicon" estiver marcada
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Run]
