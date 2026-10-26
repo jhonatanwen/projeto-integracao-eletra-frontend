@@ -1,11 +1,13 @@
 package com.eletra.controller;
 
-import com.eletra.models.Types;
+import com.eletra.model.CategoryEntity;
+import com.eletra.model.LineEntity;
+import com.eletra.model.ModelEntity;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,54 +21,72 @@ public class MainController implements Initializable {
     private TitledPane tpModels;
 
     @FXML
-    private ComboBox<Types> cbLines;
+    private ComboBox<String> cbLines;
 
     @FXML
-    private TreeView<Types> tvModels;
+    private TreeView<String> tvModels;
 
-    private final TreeItem<Types> rootCategories = new TreeItem<>(null);
-    private final Map<Types, List<TreeItem<Types>>> modelsCache = new EnumMap<>(Types.class);
+    private LineController lineController;
+    private CategoryController categoryController;
+    private ModelController modelController;
+    private final TreeItem<String> rootCategories = new TreeItem<>("root");
+    private final Map<String, List<TreeItem<String>>> modelsCache = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        tpModels.setDisable(true);
+        setDatabaseControllers();
+        setTpModels();
+        setCbLines();
+    }
 
+    private void setDatabaseControllers() {
+        lineController = new LineController();
+        categoryController = new CategoryController();
+        modelController = new ModelController();
+    }
+
+    private void setTpModels() {
+        tpModels.setDisable(true);
         tvModels.setShowRoot(false);
         tvModels.setRoot(rootCategories);
-        rootCategories.setExpanded(true);
-        buildModelsCache();
 
+        rootCategories.setExpanded(true);
+
+        buildModelsCache();
+    }
+
+    private void setCbLines() {
         cbLines.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            tpModels.setDisable(newValue == null);
+            tpModels.setDisable(false);
             refreshSelection(newValue);
         });
     }
 
     private void buildModelsCache() {
-        for (Types line : Types.getLines()) {
-            cbLines.getItems().add(line);
+        for (LineEntity line : lineController.getAllLines()) {
+            cbLines.getItems().add(line.getName());
 
-            List<TreeItem<Types>> categoryItems = new ArrayList<>();
+            List<TreeItem<String>> categoryItems = new ArrayList<>();
 
-            for (Types category : line.getChildren()) {
-                TreeItem<Types> categoryItem = new TreeItem<>(category);
+            for (CategoryEntity category : categoryController.getCategoriesByLineId(line.getId())) {
+                TreeItem<String> categoryItem = new TreeItem<>(category.getName());
 
-                for (Types model : category.getChildren()) {
-                    categoryItem.getChildren().add(new TreeItem<>(model));
+                for (ModelEntity model : modelController.getModelsByCategoryId(category.getId())) {
+                    categoryItem.getChildren().add(new TreeItem<>(model.getName()));
                 }
 
                 categoryItems.add(categoryItem);
             }
 
-            modelsCache.put(line, categoryItems);
+            modelsCache.put(line.getName(), categoryItems);
         }
     }
 
-    private void refreshSelection(Types line) {
-        List<TreeItem<Types>> items = modelsCache.get(line);
+    private void refreshSelection(String lineName) {
+        List<TreeItem<String>> items = modelsCache.get(lineName);
         if (items != null) {
-            for (TreeItem<Types> categoryItem : items) {
-                categoryItem.setExpanded(false);
+            for (TreeItem<String> item : items) {
+                item.setExpanded(false);
             }
             rootCategories.getChildren().setAll(items);
         } else {
