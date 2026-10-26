@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainView.fxml"));
 
-        primaryStage.setTitle("Projeto integraÃ§Ã£o");
+        primaryStage.setTitle("Projeto integração");
 
         Image icon = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/images/icon.png")
