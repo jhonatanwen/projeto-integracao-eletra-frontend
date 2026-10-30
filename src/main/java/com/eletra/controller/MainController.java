@@ -1,14 +1,17 @@
 package com.eletra.controller;
 
-import com.eletra.model.CategoryEntity;
-import com.eletra.model.LineEntity;
-import com.eletra.model.ModelEntity;
+import com.eletra.dto.CategoryDTO;
+import com.eletra.dto.LineDTO;
+import com.eletra.dto.ModelDTO;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import com.eletra.service.CategoryService;
+import com.eletra.service.LineService;
+import com.eletra.service.ModelService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -26,9 +29,9 @@ public class MainController implements Initializable {
     @FXML
     private TreeView<String> tvModels;
 
-    private LineController lineController;
-    private CategoryController categoryController;
-    private ModelController modelController;
+    private LineService lineService;
+    private CategoryService categoryService;
+    private ModelService modelService;
     private final TreeItem<String> rootCategories = new TreeItem<>("root");
     private final Map<String, List<TreeItem<String>>> modelsCache = new HashMap<>();
 
@@ -40,9 +43,9 @@ public class MainController implements Initializable {
     }
 
     private void setDatabaseControllers() {
-        lineController = new LineController();
-        categoryController = new CategoryController();
-        modelController = new ModelController();
+        lineService = new LineService();
+        categoryService = new CategoryService();
+        modelService = new ModelService();
     }
 
     private void setTpModels() {
@@ -63,15 +66,15 @@ public class MainController implements Initializable {
     }
 
     private void buildModelsCache() {
-        for (LineEntity line : lineController.getAllLines()) {
+        for (LineDTO line : lineService.getAllLines()) {
             cbLines.getItems().add(line.getName());
 
             List<TreeItem<String>> categoryItems = new ArrayList<>();
 
-            for (CategoryEntity category : categoryController.getCategoriesByLineId(line.getId())) {
+            for (CategoryDTO category : categoryService.getCategoriesByLineId(line.getId())) {
                 TreeItem<String> categoryItem = new TreeItem<>(category.getName());
 
-                for (ModelEntity model : modelController.getModelsByCategoryId(category.getId())) {
+                for (ModelDTO model : modelService.getModelsByCategoryId(category.getId())) {
                     categoryItem.getChildren().add(new TreeItem<>(model.getName()));
                 }
 
