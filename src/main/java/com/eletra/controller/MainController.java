@@ -37,12 +37,12 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setDatabaseControllers();
+        setAPIServices();
         setTpModels();
         setCbLines();
     }
 
-    private void setDatabaseControllers() {
+    private void setAPIServices() {
         lineService = new LineService();
         categoryService = new CategoryService();
         modelService = new ModelService();
