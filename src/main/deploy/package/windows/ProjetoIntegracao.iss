@@ -41,8 +41,6 @@ WizardImageFile={#MyAppWizardIconBmp}
 WizardSmallImageFile={#MyAppWizardIconBmp}
 ArchitecturesInstallIn64BitMode=x64
 SetupIconFile={#AppBundleDir}\{#MyAppIco}
-PrivilegesRequired=admin
-SignTool=Jhonatan
 
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
