@@ -59,10 +59,12 @@ public class MainController implements Initializable {
     }
 
     private void setCbLines() {
-        cbLines.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            tpModels.setDisable(false);
-            refreshSelection(newValue);
-        });
+        cbLines.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    tpModels.setDisable(false);
+                    refreshSelection(newValue);
+                });
     }
 
     private void buildModelsCache() {
