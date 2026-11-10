@@ -1,0 +1,37 @@
+stages:
+  - build
+  - run
+
+build_develop:
+  stage: build
+  tags:
+    - javafx
+  script:
+    - if exist projeto-integracao-backend rmdir /s /q projeto-integracao-backend
+    - git clone -b develop https://jhonatanwen:gldt-wMri69Pyf3zu3n51nhNY@gitlab.com/jhonatanwen/projeto-integracao-backend.git
+    - cd projeto-integracao-backend
+    - call mvn clean install
+    - cd ../projeto-integracao-frontend
+    - call mvn clean package
+    - if not exist "C:\Builds_GitLab" mkdir "C:\Builds_GitLab"
+    - copy /Y "target\jfx\native\*.exe" "C:\Builds_GitLab\"
+
+  only:
+    - develop
+    - master
+
+  artifacts:
+    paths:
+      - target/jfx/native/ProjetoIntegracao-0.4.0-setup.exe
+      - projeto-integracao-backend/target/projeto-integracao-backend-0.4.0.jar
+
+run_develop:
+  stage: run
+  tags:
+    - javafx
+  script:
+    - cd projeto-integracao-backend/target
+    - java -jar projeto-integracao-backend-0.4.0.jar
+  only:
+    - develop
+    - master
