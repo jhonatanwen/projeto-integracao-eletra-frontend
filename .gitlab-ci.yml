@@ -8,7 +8,7 @@ build_develop:
     - javafx
   script:
     - if exist projeto-integracao-backend rmdir /s /q projeto-integracao-backend
-    - git clone -b develop https://jhonatanwen:gldt-wMri69Pyf3zu3n51nhNY@gitlab.com/jhonatanwen/projeto-integracao-backend.git
+    - git clone -b feature/project04 https://jhonatanwen:gldt-wMri69Pyf3zu3n51nhNY@gitlab.com/jhonatanwen/projeto-integracao-backend.git
     - cd projeto-integracao-backend
     - call mvn clean install
     - cd ../projeto-integracao-frontend
@@ -17,6 +17,7 @@ build_develop:
     - copy /Y "target\jfx\native\*.exe" "C:\Builds_GitLab\"
 
   only:
+    - feature/project04
     - develop
     - master
 
@@ -33,5 +34,6 @@ run_develop:
     - cd projeto-integracao-backend/target
     - java -jar projeto-integracao-backend-0.4.0.jar
   only:
+    - feature/project04
     - develop
     - master
