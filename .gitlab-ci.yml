@@ -10,9 +10,9 @@ build_develop:
     - if (Test-Path "projeto-integracao-backend") { Remove-Item "projeto-integracao-backend" -Recurse -Force }
     - git clone -b feature/project04 https://jhonatanwen:gldt-wMri69Pyf3zu3n51nhNY@gitlab.com/jhonatanwen/projeto-integracao-eletra-backend.git
     - cd projeto-integracao-eletra-backend
-    - mvn clean install -s ../settings.xml
+    - mvn clean install -s settings.xml
     - cd ../projeto-integracao-frontend
-    - mvn clean package -s ../settings.xml
+    - mvn clean package -s settings.xml
 
   only:
     - feature/project04
