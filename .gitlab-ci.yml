@@ -7,14 +7,12 @@ build_develop:
   tags:
     - javafx
   script:
-    - if exist projeto-integracao-backend rmdir /s /q projeto-integracao-backend
+    - if (Test-Path "projeto-integracao-backend") { Remove-Item "projeto-integracao-backend" -Recurse -Force }
     - git clone -b feature/project04 https://jhonatanwen:gldt-wMri69Pyf3zu3n51nhNY@gitlab.com/jhonatanwen/projeto-integracao-eletra-backend.git
-    - cd projeto-integracao-backend
-    - call mvn clean install
+    - cd projeto-integracao-eletra-backend
+    - mvn clean install
     - cd ../projeto-integracao-frontend
-    - call mvn clean package
-    - if not exist "C:\Builds_GitLab" mkdir "C:\Builds_GitLab"
-    - copy /Y "target\jfx\native\*.exe" "C:\Builds_GitLab\"
+    - mvn clean package
 
   only:
     - feature/project04
