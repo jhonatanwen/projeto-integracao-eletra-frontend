@@ -22,14 +22,14 @@ build_develop:
   artifacts:
     paths:
       - target/jfx/native/ProjetoIntegracao-0.4.0-setup.exe
-      - projeto-integracao-backend/target/projeto-integracao-backend-0.4.0.jar
+      - projeto-integracao-eletra-backend/target/projeto-integracao-backend-0.4.0.jar
 
 run_develop:
   stage: run
   tags:
     - javafx
   script:
-    - cd projeto-integracao-backend/target
+    - cd projeto-integracao-eletra-backend/target
     - java -jar projeto-integracao-backend-0.4.0.jar
   only:
     - feature/project04
