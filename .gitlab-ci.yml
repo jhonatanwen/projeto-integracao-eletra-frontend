@@ -12,7 +12,7 @@ build_develop:
     - cd projeto-integracao-eletra-backend
     - mvn clean install -s ../settings.xml
     - cd ../projeto-integracao-frontend
-    - mvn clean package -s ../settings.xml
+    - mvn clean package -s settings.xml
 
   only:
     - feature/project04
