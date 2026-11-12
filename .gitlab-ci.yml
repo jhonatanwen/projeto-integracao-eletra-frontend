@@ -1,0 +1,37 @@
+stages:
+  - build
+  - run
+
+build_job:
+  stage: build
+  tags:
+    - javafx
+  script:
+    - if (Test-Path "projeto-integracao-backend") { Remove-Item "projeto-integracao-backend" -Recurse -Force }
+    - git clone -b feature/project04 https://jhonatanwen:gldt-wMri69Pyf3zu3n51nhNY@gitlab.com/jhonatanwen/projeto-integracao-eletra-backend.git
+    - cd projeto-integracao-eletra-backend
+    - mvn clean install -s ../settings.xml
+    - cd ../
+    - mvn clean package -s settings.xml
+
+  only:
+    - feature/project04
+    - develop
+    - master
+
+  artifacts:
+    paths:
+      - target/jfx/native/ProjetoIntegracao-0.4.0-setup.exe
+      - projeto-integracao-eletra-backend/target/projeto-integracao-backend-0.4.0.jar
+
+run_job:
+  stage: run
+  tags:
+    - javafx
+  script:
+    - cd projeto-integracao-eletra-backend/target
+    - java -jar projeto-integracao-backend-0.4.0.jar
+  only:
+    - feature/project04
+    - develop
+    - master

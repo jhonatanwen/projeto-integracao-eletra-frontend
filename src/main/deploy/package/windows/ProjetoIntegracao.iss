@@ -1,7 +1,7 @@
 #define MyAppName "ProjetoIntegracao"
 #define MyAppIco "ProjetoIntegracao.ico"
 #define MyAppWizardIconBmp "ProjetoIntegracao-setup-icon.bmp"
-#define MyAppVersion "0.3.0"
+#define MyAppVersion "0.4.0"
 #define MyAppPublisher "Jhonatan"
 #define MyAppExeName "ProjetoIntegracao.exe"
 #define MyAppId "UPDATE-DETECTION"
