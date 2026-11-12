@@ -2,7 +2,7 @@ stages:
   - build
   - run
 
-build_develop:
+build_job:
   stage: build
   tags:
     - javafx
@@ -24,7 +24,7 @@ build_develop:
       - target/jfx/native/ProjetoIntegracao-0.4.0-setup.exe
       - projeto-integracao-eletra-backend/target/projeto-integracao-backend-0.4.0.jar
 
-run_develop:
+run_job:
   stage: run
   tags:
     - javafx
