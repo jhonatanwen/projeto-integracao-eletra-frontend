@@ -1,10 +1,8 @@
 package com.eletra.dto;
 
 public class LineDTO {
-    private Integer id;
-    private String name;
-
-    public LineDTO() {}
+    private final Integer id;
+    private final String name;
 
     public LineDTO(Integer id, String name) {
         this.id = id;
@@ -12,8 +10,6 @@ public class LineDTO {
     }
 
     public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
 }
