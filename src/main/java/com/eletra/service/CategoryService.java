@@ -10,11 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CategoryService {
+    private static final String API_URL = "http://localhost:3001/api/categories/lines/";
+
     public List<CategoryDTO>  getCategoriesByLineId(Integer lineId) {
         try {
             RestTemplate restTemplate = new RestTemplate();
 
-            URL url = new URL("http://localhost:3001/api/categories/lines/" + lineId);
+            URL url = new URL(API_URL + lineId);
 
             ResponseEntity<CategoryDTO[]> response =  restTemplate.exchange(url.toURI(), HttpMethod.GET, HttpEntity.EMPTY, CategoryDTO[].class);
 
