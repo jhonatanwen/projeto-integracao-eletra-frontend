@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ModelService {
-    private static final String API_URL = "http://localhost:3001/api/models/categories/";
+    protected static final String API_URL = "http://localhost:3001/api/models/categories/";
+
+    protected RestTemplate restTemplate =  new RestTemplate();
 
     public List<ModelDTO> getModelsByCategoryId(int categoryId) {
         try {
-            RestTemplate restTemplate = new RestTemplate();
-
             URL url = new URL(API_URL + categoryId);
 
             ResponseEntity<ModelDTO[]> response =  restTemplate.exchange(url.toURI(), HttpMethod.GET, HttpEntity.EMPTY, ModelDTO[].class);

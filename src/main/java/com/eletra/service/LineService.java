@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LineService {
-    private static final String API_URL = "http://localhost:3001/api/lines/";
+    protected static final String API_URL = "http://localhost:3001/api/lines/";
+
+    protected RestTemplate restTemplate =  new RestTemplate();
 
     public List<LineDTO> getAllLines() {
         try{
-            RestTemplate restTemplate = new RestTemplate();
-
             URL url = new URL(API_URL);
 
             ResponseEntity<LineDTO[]> response = restTemplate.exchange(url.toURI(), HttpMethod.GET, HttpEntity.EMPTY, LineDTO[].class);
