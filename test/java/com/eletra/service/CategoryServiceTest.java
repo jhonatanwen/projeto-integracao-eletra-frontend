@@ -34,10 +34,8 @@ public class CategoryServiceTest {
 
     @Test
     public void getCategoriesByLineIdShouldReturnListOfCategories() throws Exception {
-        CategoryDTO cronosOld = new CategoryDTO();
-        cronosOld.setName("Cronos Old");
-        CategoryDTO cronosL = new CategoryDTO();
-        cronosL.setName("Cronos L");
+        CategoryDTO cronosOld = new CategoryDTO(1, "Cronos Old", 1);
+        CategoryDTO cronosL = new CategoryDTO(1, "Cronos L", 1);
         CategoryDTO[] body = {cronosOld, cronosL};
 
         URI expectedUri = new URI(API_URL + lineId);

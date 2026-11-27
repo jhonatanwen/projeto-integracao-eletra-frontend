@@ -33,10 +33,8 @@ public class ModelServiceTest {
 
     @Test
     public void getModelsByCategoryIdShouldReturnListOfModels() throws Exception {
-        ModelDTO model7021 = new ModelDTO();
-        model7021.setName("ARES 7021");
-        ModelDTO model7031 = new ModelDTO();
-        model7031.setName("ARES 7031");
+        ModelDTO model7021 = new ModelDTO(12, "ARES 7021", 4);
+        ModelDTO model7031 = new ModelDTO(13, "ARES 7031", 4);
         ModelDTO[] body = {model7021, model7031};
 
         URI expectedUri = new URI(API_URL + categoryId);

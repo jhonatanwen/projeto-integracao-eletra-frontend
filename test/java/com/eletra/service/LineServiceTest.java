@@ -32,10 +32,8 @@ public class LineServiceTest {
 
     @Test
     public void getAllLinesShouldReturnListOfLines() throws Exception {
-        LineDTO cronos = new LineDTO();
-        cronos.setName("Cronos");
-        LineDTO ares = new LineDTO();
-        ares.setName("Ares");
+        LineDTO cronos = new LineDTO(1, "Cronos");
+        LineDTO ares = new LineDTO(2, "Ares");
         LineDTO[] body = {cronos, ares};
 
         URI expectedUri = new URI(API_URL);
