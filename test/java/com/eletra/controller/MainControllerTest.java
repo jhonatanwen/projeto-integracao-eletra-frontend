@@ -156,4 +156,26 @@ public class MainControllerTest {
         controller.cbLines.setValue("Cronos");
         assertFalse(controller.tvModels.getRoot().getChildren().get(0).isExpanded());
     }
+
+    @Test
+    public void setCbLinesTestCase3() {
+        LineDTO cronos = new LineDTO(1, "Cronos");
+        CategoryDTO catOld = new CategoryDTO(1, "Cronos Old", 1);
+        ModelDTO model6001 = new ModelDTO(1, "Cronos 6001-A", 1);
+
+        when(controller.lineService.getAllLines()).thenReturn(Collections.singletonList(cronos));
+        when(controller.categoryService.getCategoriesByLineId(1)).thenReturn(Collections.singletonList(catOld));
+        when(controller.modelService.getModelsByCategoryId(1)).thenReturn(Collections.singletonList(model6001));
+
+        controller.setTpModels();
+        controller.setCbLines();
+
+        controller.cbLines.setValue("Cronos");
+        assertFalse(controller.tvModels.getRoot().getChildren().isEmpty());
+
+        controller.cbLines.setValue("linha que nao existe");
+
+        assertFalse(controller.tpModels.isDisabled());
+        assertTrue(controller.tvModels.getRoot().getChildren().isEmpty());
+    }
 }
