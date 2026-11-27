@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ModelService {
-    protected static final String API_URL = "http://localhost:3001/api/models/categories/";
+    static final String API_URL = "http://localhost:3001/api/models/categories/";
 
-    protected RestTemplate restTemplate =  new RestTemplate();
+    RestTemplate restTemplate =  new RestTemplate();
 
     public List<ModelDTO> getModelsByCategoryId(int categoryId) {
         try {

@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CategoryService {
-    protected static final String API_URL = "http://localhost:3001/api/categories/lines/";
+    static final String API_URL = "http://localhost:3001/api/categories/lines/";
 
-    protected RestTemplate restTemplate =  new RestTemplate();
+    RestTemplate restTemplate =  new RestTemplate();
 
     public List<CategoryDTO>  getCategoriesByLineId(Integer lineId) {
         try {

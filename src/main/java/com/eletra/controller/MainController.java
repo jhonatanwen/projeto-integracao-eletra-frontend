@@ -21,19 +21,19 @@ import javafx.scene.control.TreeView;
 
 public class MainController implements Initializable {
     @FXML
-    private TitledPane tpModels;
+    TitledPane tpModels;
 
     @FXML
-    private ComboBox<String> cbLines;
+    ComboBox<String> cbLines;
 
     @FXML
-    private TreeView<String> tvModels;
+    TreeView<String> tvModels;
 
-    private LineService lineService;
-    private CategoryService categoryService;
-    private ModelService modelService;
-    private final TreeItem<String> rootCategories = new TreeItem<>("root");
-    private final Map<String, List<TreeItem<String>>> modelsCache = new HashMap<>();
+    LineService lineService;
+    CategoryService categoryService;
+    ModelService modelService;
+    final TreeItem<String> rootCategories = new TreeItem<>("root");
+    final Map<String, List<TreeItem<String>>> modelsCache = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,13 +42,13 @@ public class MainController implements Initializable {
         setCbLines();
     }
 
-    private void setAPIServices() {
+    void setAPIServices() {
         lineService = new LineService();
         categoryService = new CategoryService();
         modelService = new ModelService();
     }
 
-    private void setTpModels() {
+    void setTpModels() {
         tpModels.setDisable(true);
         tvModels.setShowRoot(false);
         tvModels.setRoot(rootCategories);
@@ -58,7 +58,7 @@ public class MainController implements Initializable {
         buildModelsCache();
     }
 
-    private void setCbLines() {
+    void setCbLines() {
         cbLines.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
@@ -67,7 +67,7 @@ public class MainController implements Initializable {
                 });
     }
 
-    private void buildModelsCache() {
+    void buildModelsCache() {
         for (LineDTO line : lineService.getAllLines()) {
             cbLines.getItems().add(line.getName());
 
@@ -87,7 +87,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private void refreshSelection(String lineName) {
+    void refreshSelection(String lineName) {
         List<TreeItem<String>> items = modelsCache.get(lineName);
         if (items != null) {
             for (TreeItem<String> item : items) {
