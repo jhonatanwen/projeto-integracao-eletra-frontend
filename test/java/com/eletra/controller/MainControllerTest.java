@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -52,6 +53,19 @@ public class MainControllerTest {
         verify(controller).setAPIServices();
         verify(controller).setTpModels();
         verify(controller).setCbLines();
+    }
+
+    @Test
+    public void setAPIServicesTest() {
+        controller.lineService = null;
+        controller.categoryService = null;
+        controller.modelService = null;
+
+        controller.setAPIServices();
+
+        assertNotNull(controller.lineService);
+        assertNotNull(controller.categoryService);
+        assertNotNull(controller.modelService);
     }
 
     @Test
